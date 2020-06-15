@@ -22,4 +22,13 @@ az network vnet create --name TestVNet1 --resource-group VPN --address-prefix 10
 
 4. Crie a sub-rede do gateway - Create the gateway subnet.
 
-az network vnet subnet create --address-prefix 10.11.255.0/27 --name GatewaySubnet --resource-group VPN --vnet-name TestVNet1 # Cria o Gateway Subnet com a faixa de ip 10.11.255.0/27 na Rede Virtual com o nome TestVNet1.
+az network vnet subnet create --address-prefix 10.11.255.0/27 --name GatewaySubnet --resource-group VPN --vnet-name TestVNet1 # Cria o Gateway Subnet com a faixa de ip 10.11.255.0/27 na Rede Virtual que tem o nome TestVNet1.
+
+
+5. Crie o gateway de rede local - Create the local network gateway
+
+az network local-gateway create --gateway-ip-address 191.175.15.75 --name Site2 --resource-group VPN --local-address-prefixes 10.101.0.0/24 # Cria o Gateway local. O --gateway-ip-address é o endereço IP do seu provedor de internet. O --local-address-prefixes e a faixa de endereço ip da sua rede local.
+
+
+
+
