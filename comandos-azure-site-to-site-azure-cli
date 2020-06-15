@@ -40,3 +40,23 @@ az network public-ip create --name VNet1GWIP --resource-group VPN --allocation-m
 az network vnet-gateway create --name VNet1GW --public-ip-address VNet1GWIP --resource-group VPN --vnet TestVNet1 --gateway-type Vpn --vpn-type RouteBased --sku VpnGw1 --no-wait # Cria o Gateway de VPN, baseado em rota e usando o SKU VpnGw1.
 
 
+8. Crie a conexão VPN - Create the VPN connection.
+
+az network vpn-connection create --name VNet1toSite2 --resource-group VPN --vnet-gateway1 VNet1GW -l eastus --shared-key abc123 --local-gateway2 Site2 # Cria a conexão VPN com a chave compartilhada abc123.
+
+
+8. Configure seu dispositivo VPN - Configure your VPN device.
+
+az network public-ip list --resource-group VPN --output table # Mostra o ip público do Azure para ser utilizado na configuração do dispositivo VPN.
+
+
+10. Verifique a conexão VPN - Verify the VPN connection.
+
+az network vpn-connection show --name VNet1toSite2 --resource-group VPN
+
+az network vpn-connection show --name VNet1toSite2 --resource-group VPN
+
+
+
+
+az network vpn-connection create --name VNet1toSite2 --resource-group VPN --vnet-gateway1 VNet1GW -l eastus --shared-key abc123 --local-gateway2 Site2
