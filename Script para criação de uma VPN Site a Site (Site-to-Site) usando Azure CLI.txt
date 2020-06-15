@@ -1,0 +1,57 @@
+## Script para criação de uma VPN Site a Site (Site-to-Site) usando Azure CLI - Créditos Gabriel Luiz - www.gabrielluiz.com ##
+ 
+
+1. Conecte-se à sua assinatura - Connect to your subscription.
+
+az login # login no Azure Cloud Shell.
+
+az account list --all # Lista todas as suas assinaturas do Azure.
+
+az account set --subscription <replace_with_your_subscription_id> # Especifique a assinatura que você deseja usar.
+
+
+2. Crie um grupo de recursos - Create a resource group.
+
+az group create --name VPN --location eastus # Cria o grupo de recurso.
+
+
+3. Crie uma rede virtual - Create a virtual network.
+
+az network vnet create --name TestVNet1 --resource-group VPN --address-prefix 10.11.0.0/16 --location eastus --subnet-name Subnet1 --subnet-prefix 10.11.0.0/24 # Cria a Rede Virtual com a faixa de ip 10.11.0.0/16 e subnet com a faixa de ip 10.11.0.0/24.
+
+
+4. Crie a sub-rede do gateway - Create the gateway subnet.
+
+az network vnet subnet create --address-prefix 10.11.255.0/27 --name GatewaySubnet --resource-group VPN --vnet-name TestVNet1 # Cria o Gateway Subnet com a faixa de ip 10.11.255.0/27 na Rede Virtual que tem o nome TestVNet1.
+
+
+5. Crie o gateway de rede local - Create the local network gateway.
+
+az network local-gateway create --gateway-ip-address 191.175.15.75 --name Site2 --resource-group VPN --local-address-prefixes 10.101.0.0/24 # Cria o Gateway local. O --gateway-ip-address é o endereço IP do seu provedor de internet. O --local-address-prefixes e a faixa de endereço ip da sua rede local.
+
+
+6. Solicitar um endereço IP público - Request a Public IP address.
+
+az network public-ip create --name VNet1GWIP --resource-group VPN --allocation-method Dynamic # Solicitar um endereço IP público dinâmico.
+
+
+7. Crie o gateway VPN - Create the VPN gateway.
+
+az network vnet-gateway create --name VNet1GW --public-ip-address VNet1GWIP --resource-group VPN --vnet TestVNet1 --gateway-type Vpn --vpn-type RouteBased --sku VpnGw1 --no-wait # Cria o Gateway de VPN, baseado em rota e usando o SKU VpnGw1.
+
+
+8. Crie a conexão VPN - Create the VPN connection.
+
+az network vpn-connection create --name VNet1toSite2 --resource-group VPN --vnet-gateway1 VNet1GW -l eastus --shared-key abc123 --local-gateway2 Site2 # Cria a conexão VPN com a chave compartilhada abc123.
+
+
+8. Configure seu dispositivo VPN - Configure your VPN device.
+
+az network public-ip list --resource-group VPN --output table # Mostra o ip público do Azure para ser utilizado na configuração do dispositivo VPN.
+
+
+10. Verifique a conexão VPN - Verify the VPN connection.
+
+az network vpn-connection show --name VNet1toSite2 --resource-group VPN
+
+Referência: https://docs.microsoft.com/pt-br/azure/vpn-gateway/vpn-gateway-howto-site-to-site-resource-manager-cli
