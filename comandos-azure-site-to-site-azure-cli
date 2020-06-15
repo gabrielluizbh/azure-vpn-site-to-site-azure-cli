@@ -1,3 +1,25 @@
 
 # Crie uma VPN Site a Site (Site-toSite) usando Azure CLI
 
+1. Conecte-se à sua assinatura - Connect to your subscription.
+
+az login # login no Azure Cloud Shell.
+
+az account list --all # Lista todas as suas assinaturas do Azure.
+
+az account set --subscription <replace_with_your_subscription_id> # Especifique a assinatura que você deseja usar.
+
+
+2. Crie um grupo de recursos - Create a resource group.
+
+az group create --name VPN --location eastus # Cria o grupo de recurso.
+
+
+3. Crie uma rede virtual - Create a virtual network.
+
+az network vnet create --name TestVNet1 --resource-group VPN --address-prefix 10.11.0.0/16 --location eastus --subnet-name Subnet1 --subnet-prefix 10.11.0.0/24 # Cria a Rede Virtual com a faixa de ip 10.11.0.0/16 e subnet com a faixa de ip 10.11.0.0/24.
+
+
+4. Crie a sub-rede do gateway - Create the gateway subnet.
+
+az network vnet subnet create --address-prefix 10.11.255.0/27 --name GatewaySubnet --resource-group VPN --vnet-name TestVNet1 # Cria o Gateway Subnet com a faixa de ip 10.11.255.0/27 na Rede Virtual com o nome TestVNet1.
