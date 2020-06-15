@@ -5,3 +5,5 @@ Contéudo:
 Script-azure-site-to-site-azure-cli
 
 Planilha VPN Azure Site to Site - Azure Cloud Shell CLI.xlsx
+
+Créditos - Gabriel Luiz - www.gabrielluiz.com
