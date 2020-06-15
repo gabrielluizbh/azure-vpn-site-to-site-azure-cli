@@ -1,5 +1,5 @@
-
-# Crie uma VPN Site a Site (Site-toSite) usando Azure CLI
+## Script para criação de uma VPN Site a Site (Site-to-Site) usando Azure CLI - Créditos Gabriel Luiz - www.gabrielluiz.com ##
+ 
 
 1. Conecte-se à sua assinatura - Connect to your subscription.
 
@@ -54,9 +54,5 @@ az network public-ip list --resource-group VPN --output table # Mostra o ip púb
 
 az network vpn-connection show --name VNet1toSite2 --resource-group VPN
 
-az network vpn-connection show --name VNet1toSite2 --resource-group VPN
+Referência: https://docs.microsoft.com/pt-br/azure/vpn-gateway/vpn-gateway-howto-site-to-site-resource-manager-cli
 
-
-
-
-az network vpn-connection create --name VNet1toSite2 --resource-group VPN --vnet-gateway1 VNet1GW -l eastus --shared-key abc123 --local-gateway2 Site2
